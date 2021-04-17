@@ -37,7 +37,7 @@ pipeline {
               steps {
                    script {
 
-                          dockerImage = project ":${BUILD_NUMBER}" 
+                           dockerImage = project ":${BUILD_NUMBER}" 
                            docker.withRegistry('', registryCredential) {
                            dockerImage.push() 
                          }
@@ -58,10 +58,18 @@ pipeline {
         stage('run compose') { 
             steps {
 	   
-            bat 'docker-compose up -d'
+            bat 'minikube start'
                      
             }
-        }              
+        }
+
+        stage('run compose') { 
+            steps {
+	   
+            bat ''
+                     
+            }
+        }                      
         options {
               buildDiscarder(logRotator(numToKeepStr: '5', artifactNumToKeepStr: '20'))
               properties([pipelineTriggers([pollSCM('*/30 * * * *')])])
