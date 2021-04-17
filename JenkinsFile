@@ -55,7 +55,7 @@ pipeline {
                           bat "docker rmi $registry:${BUILD_NUMBER}"
             }
         }
-        stage('run compose') { 
+        stage('start local cluster') { 
             steps {
 	   
             bat 'minikube start'
@@ -63,10 +63,18 @@ pipeline {
             }
         }
 
-        stage('run compose') { 
+        stage('apply k8s') { 
             steps {
 	   
-            bat ''
+            bat 'kubectl apply -f https://raw.githubusercontent.com/itayzrihan1/Itay-test/main/deployment.yaml?token=ASSTMJ6FBT6E6P2F6TQZ22TAPNC3G'
+                     
+            }
+        }
+
+        stage('apply cronjob') { 
+            steps {
+	   
+            bat 'kubectl apply -f https://raw.githubusercontent.com/itayzrihan1/Itay-test/main/CronJob.yaml?token=ASSTMJ7USIHZQKAJYXX5A63APNDIM'
                      
             }
         }                      
